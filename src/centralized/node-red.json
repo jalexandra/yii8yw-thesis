@@ -1,0 +1,261 @@
+[
+    {
+        "id": "997ff35ef14d1140",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9777a8e8159e0cdb",
+        "type": "serial in",
+        "z": "997ff35ef14d1140",
+        "name": "RFID touch",
+        "serial": "700ea8a5d011e1eb",
+        "x": 90,
+        "y": 360,
+        "wires": [
+            [
+                "7f2be465d6b24a1c"
+            ]
+        ]
+    },
+    {
+        "id": "7f2be465d6b24a1c",
+        "type": "json",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 250,
+        "y": 360,
+        "wires": [
+            [
+                "0f27cf103d981492"
+            ]
+        ]
+    },
+    {
+        "id": "1a5affba56e20630",
+        "type": "http request",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "method": "PUT",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "http://192.168.1.67:8000/api/access/{{deviceId}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "other",
+                "keyValue": "Accept",
+                "valueType": "other",
+                "valueValue": "application/JSON"
+            }
+        ],
+        "x": 610,
+        "y": 360,
+        "wires": [
+            [
+                "a2570b4cad18be38"
+            ]
+        ]
+    },
+    {
+        "id": "0f27cf103d981492",
+        "type": "change",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "deviceId",
+                "pt": "msg",
+                "to": "payload.deviceId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.worker_rfid",
+                "pt": "msg",
+                "to": "payload.rfid",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 360,
+        "wires": [
+            [
+                "1a5affba56e20630"
+            ]
+        ]
+    },
+    {
+        "id": "a2570b4cad18be38",
+        "type": "switch",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "allow",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 750,
+        "y": 360,
+        "wires": [
+            [
+                "1e8875959eb549aa"
+            ],
+            [
+                "02e6ab4172a89b8b"
+            ]
+        ]
+    },
+    {
+        "id": "1e8875959eb549aa",
+        "type": "change",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1000,
+        "y": 240,
+        "wires": [
+            [
+                "4c8651ad5908d629"
+            ]
+        ]
+    },
+    {
+        "id": "02e6ab4172a89b8b",
+        "type": "change",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 980,
+        "y": 460,
+        "wires": [
+            [
+                "4c8651ad5908d629"
+            ]
+        ]
+    },
+    {
+        "id": "4c8651ad5908d629",
+        "type": "serial out",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "serial": "700ea8a5d011e1eb",
+        "x": 1260,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "d406007909691a4e",
+        "type": "catch",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "scope": null,
+        "uncaught": false,
+        "x": 900,
+        "y": 360,
+        "wires": [
+            [
+                "1c95356780150842"
+            ]
+        ]
+    },
+    {
+        "id": "1c95356780150842",
+        "type": "change",
+        "z": "997ff35ef14d1140",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "0",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1060,
+        "y": 360,
+        "wires": [
+            [
+                "4c8651ad5908d629"
+            ]
+        ]
+    },
+    {
+        "id": "700ea8a5d011e1eb",
+        "type": "serial-port",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    }
+]
