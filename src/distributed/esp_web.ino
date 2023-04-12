@@ -22,6 +22,11 @@
 #define OPEN_TIME 5000
 
 #define SERVER "http://192.168.0.101:8000/api/access/51"
+/**
+* Itt az 51 a zár ID-je. Ennek úgy kéne működnie, hogy bármilyen azonosítót elfogadni (pl. deviceID vagy MAC cím),
+* de hibás a BE, szóval csak az adatbázisban tárolt primary key-t (ID-t) fogadja el.
+* Ezt az ID-t meg tudjuk nézni az admin panel-en, és be kell égetni az eszközkódba egyelőre
+*/
 
 SoftwareSerial RFID(RX, TX);
 String text;
@@ -96,11 +101,11 @@ int send(String rfid){
   
   HTTPClient http;
   WiFiClient client;
-  String body = "{\"worker_rfid\":\"";
-  body += rfid;
-  body += "\"}";
+  String body = String("{\"worker_rfid\":\"")
+    + rfid
+    + "\"}";
 
-  Serial.println(body);
+  Serial.println(body); //debug
 
   http.begin(client, SERVER);
   http.addHeader("Content-Type", "application/json");
@@ -108,7 +113,7 @@ int send(String rfid){
 
   http.end();
 
-  Serial.println(httpCode);
+  Serial.println(httpCode); //debug
   return httpCode;
 }
 
